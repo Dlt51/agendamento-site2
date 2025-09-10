@@ -3,7 +3,7 @@ import emailjs from 'emailjs-com';
 
 export default function Agendamento() {
   const [formData, setFormData] = useState({
-    nome: '',
+    nomeeee: '',
     nascimento: '',
     necessidade: '',
     data: '',
@@ -17,17 +17,28 @@ export default function Agendamento() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const sendEmail = (e) => {
-    e.preventDefault();
-    emailjs.send(
-      'service_sto5a0s',
-      'template_82cbyk9',
-      formData,
-      '_Fk5SFC6WXJylb-0V'
-    )
-    .then(() => alert('Agendamento enviado com sucesso!'))
-    .catch((err) => alert('Erro ao enviar: ' + err.text));
+const sendEmail = (e) => {
+  e.preventDefault();
+
+  const templateParams = {
+    to_name: formData.nome,
+    to_email: formData.email, // <- usado como destinatário
+    data: formData.data,
+    horario: formData.horario,
   };
+
+  emailjs
+    .send(
+      "service_sto5a0s",   // Service ID
+      "template_82cbyk9",  // Template ID
+      templateParams,
+      "_Fk5SFC6WXJylb-0V" // Public Key
+    )
+    .then(() => alert("Agendamento enviado com sucesso!"))
+    .catch((err) => alert("Erro ao enviar: " + err.text));
+};
+
+
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: 20 }}>
